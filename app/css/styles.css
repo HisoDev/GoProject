@@ -1,0 +1,118 @@
+html {
+	background: #FFA500;
+}
+body {
+    background: #FFA500;
+	max-width: 100%;
+	min-width: 100%;
+    margin: 0;
+}
+
+footer {
+    background: #FFA500;
+    max-width: 100%;
+	min-width: 100%;
+    margin: 0;
+    text-align: center;
+}
+
+#global {
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    position: relative;
+}
+
+/*container*/
+.container {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+.container > hr {
+    margin: 60px 0;
+}
+/*--------------------------------------*/
+/*Logo*/
+#logo {
+    height: 200px;
+    width: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 3px 5px rgba(0,0,0,.2);
+}
+/*--------------------------------------*/
+/*NavBar*/
+.navbar .navbar-inner {
+    padding: 0;
+}
+.navbar .nav {
+    margin: 0;
+    display: table;
+    width: 100%;
+}
+.navbar .nav li {
+    display: table-cell;
+    width: 1%;
+    float: none;
+}
+.navbar .nav li a {
+    font-weight: bold;
+    text-align: center;
+    border-left: 1px solid rgba(255,255,255,.75);
+    border-right: 1px solid rgba(0,0,0,.1);
+}
+.navbar .nav li:first-child a {
+    border-left: 0;
+    border-radius: 3px 0 0 3px;
+}
+.navbar .nav li:last-child a {
+    border-right: 0;
+    border-radius: 0 3px 3px 0;
+}
+/*--------------------------------------*/
+
+ul {
+	display: table;
+	background: linear-gradient(darkorange,darkgoldenrod);
+	background: -webkit-linear-gradient(darkorange, darkgoldenrod);
+	background: -moz-linear-gradient(darkorange, darkgoldenrod);
+	background: -o-linear-gradient(darkorange, darkgoldenrod);
+	background: -linear-gradient(darkorange, darkgoldenrod);
+	border-radius: 6px;
+	box-shadow: 0 3px 5px rgba(0,0,0,.2);
+	text-align: center;
+}
+div#menuGauche {
+    float: left;
+    width: 100px;
+    background-color: darkgoldenrod;
+}
+
+section {
+	border: 1px darkorange solid;
+    text-align: center;
+    background: #B8860B;
+    width: 800px;
+    height: auto;
+
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+td {
+	border: 2px solid darkorange;
+}
+tr {
+	border: 5px solid darkorange;
+}
+p#cadre {
+    background: #CD950C;
+    width: 50%;
+    margin: auto;
+    
+}
+table {
+    margin-left: auto;
+    margin-right: auto;
+}

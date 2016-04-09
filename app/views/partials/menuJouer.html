@@ -1,0 +1,23 @@
+<section>
+    <article ng-controller="gameCtrl">
+        <div id="global">
+            <p>
+                <h2>Jouer au go, c'est la vie :)</h2>
+            </p>
+        </div>
+            <div >
+                <div>
+                    <button ng-click="show=true">Jouer</button><br />
+                    <div>
+                            <a ng-show="show" href="#/jouer">Taille 9*9</a>
+                            <!--<a ng-show="show" href="#/jouer">Taille 13*13</a>
+                            <a ng-show="show" href="#/jouer">Taille 19*19</a>-->
+                    </div>
+                    
+<!--                    <button id="9" ng-show="show" ng-model="petit" href="#/jouer"">Taille 9*9</button>
+                    <button id="13" ng-show="show" ng-model="moyen" ng-click="choixTaille(13)">Taille 13*13</button>
+                    <button id="19" ng-show="show" ng-model="grand" ng-click="choixTaille(19)">Taille 19*19</button>-->
+                </div>
+            </div>
+    </article>
+</section>

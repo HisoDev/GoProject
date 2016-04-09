@@ -1,0 +1,52 @@
+<section>
+    <article ng-controller="gameCtrl">
+            <div >
+                <div id="menuGauche">
+                    <button ng-click="show=true">Jouer</button><br />
+                    <button id="9" ng-show="show" ng-click="choixTaille(9)">Taille 9*9</button>
+                    <button id="13" ng-show="show" ng-click="choixTaille(13)">Taille 13*13</button>
+                    <button id="19" ng-show="show" ng-click="choixTaille(19)">Taille 19*19</button>
+                </div>
+                <div id="global">
+                    <p>
+                        <h2>Jouer au go, c'est la vie :)</h2>
+                    </p>
+                    <hr>
+                    <table >
+                        <tbody>
+                            <tr ng-repeat="ligne in affichagePlateau.vecteurLigne">  
+                                <td ng-repeat="col in ligne.cols track by $index"><div ng-click="posePierre(ligne.index,col.index)"><img ng-src="{{ col.imageEnCours }}" alt=""></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <table>
+                            <th>Matrice Blanche</th><th>Matrice Noire</th>
+                        <tr>
+                            <td>
+                                <table >
+                                    <tbody>
+                                        <tr ng-repeat="ligne in affichagePlateau.matriceBlanc">  
+                                            <td ng-repeat="col in ligne.cols track by $index">{{ col.valeur }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table >
+                                    <tbody>
+                                        <tr ng-repeat="ligne in affichagePlateau.matriceNoir">  
+                                            <td ng-repeat="col in ligne.cols track by $index">{{ col.valeur }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>   
+    </article>
+</section>
+
+<script>
+</script>

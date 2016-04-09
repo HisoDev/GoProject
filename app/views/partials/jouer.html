@@ -1,0 +1,27 @@
+<section>
+    <article ng-controller="gameCtrl">
+            <div >
+                <div id="global">
+                    <p>
+                        <h2>Bonne partie !</h2>
+                    </p>
+                    <hr>
+                    <table >
+                        <tbody>
+                            <tr ng-repeat="ligne in game.getPlateau().vecteurLigne">  
+                                <td ng-repeat="position in ligne.cols track by $index">
+                                    <div ng-click="posePierre(position)">
+                                        <img ng-src="{{ position.imageEnCours }}" alt="">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+            </div>   
+    </article>
+</section>
+
+<script>
+</script>

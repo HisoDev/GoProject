@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app='GoProject'>
+	<head>
+		<title>GoProject</title>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="HisokaH">
+        <!--HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="https://github.com/aFarkas/html5shiv/blob/master/src/html5shiv.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/styles.css">
+    </head>
+    <body>      
+        <div>
+            <img id="logo" src="images/logo.jpg" alt="Bienvenue">
+        </div>
+        <header class="container">
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <ul class="nav">
+				                <li><a href="#/accueil">Accueil</a></li>
+				                <li><a href="#/menu">Jouer</a></li>
+                                <li><a href="#/bash">Bash</a></li>
+				                <li><a href="#/forum">Forum</a></li>
+                                <li><a href="#/contact">Contact</a></li>
+                                <li><a href="#/liens">Liens</a></li>
+			                 </ul>
+                        </div>
+                    </div>
+			         
+		        </div>
+        </header>
+        <div ng-view></div>
+        <footer>
+            <hr>
+            <p>Site créé par <a href="#/contact">HisokaH</a> ! Tous droits réservés ! 2015-2016</p>
+        </footer>
+        </body>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/controllers/loginCtrl.js"></script>
+        <script src="js/controllers/gameCtrl.js"></script>
+        <script src="js/controllers/sessionCtrl.js"></script>
+        <script src="js/controllers/subCtrl.js"></script>        
+        <script src="js/services/loginService.js"></script>
+        <script src="js/services/sessionService.js"></script>
+        <script src="js/services/subService.js"></script>     
+        <script src="js/services/gameService.js"></script>   
+        <script src="js/services/plateauFactory.js"></script>
+        <script src="js/services/pierreFactory.js"></script>
+</html>

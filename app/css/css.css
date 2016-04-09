@@ -1,0 +1,73 @@
+
+tbody {
+    text-align: center;
+}
+
+
+
+.CenterImg {
+	text-align: center;
+}
+nav {
+	overflow:hidden;
+
+}
+#sidebar {
+     position:fixed;
+     left: 0;
+     top: 0;
+     bottom: 0;
+     
+}
+header {
+    margin-left: auto;
+    background: #FFA500;
+}
+
+#middlePage {
+    margin-left: auto;
+    margin-right: auto;
+}
+nav ul li {
+	
+	list-style-type: none;
+}
+nav > ul > li > a {
+	display:block;
+	padding: 0.5em 0.5em;
+	text-decoration: none;
+}
+nav li > ul li {
+	display: block;
+}
+nav li > ul li a {
+	color: #111;
+	display: block;
+	line-height:2em;
+	padding:0.5em 2em;
+	text-decoration: none;
+
+}
+nav li:hover {
+	background-color: #CD6600;
+
+}
+nav li:hover >ul {
+	position: absolute;
+	display: block;
+}
+
+ul li {
+	display: table-cell;
+}
+ul li a {
+	display: block;
+	
+	color: rbga(0,0,0,.7);
+	text-decoration:none;
+	padding: 8px 8px 17px 8px;
+}
+
+canvas {
+	border: 5px solid #CD950C;
+}

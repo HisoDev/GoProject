@@ -1,0 +1,17 @@
+<section>
+    <h3>Votre profil</h3>
+    <strong>Vos données personnelles</strong><br />
+    <!--<form role="form" name="formProfil">
+        <input type="email" ng-model="profil.mail" required>
+        <button type="button" ng-click="profils(profil)">Votre profil va être affiché</button><br />
+    </form>-->
+    <div>
+        <div>
+            Prénom: {{ infos.prenom }} <input type="text" placeholder="Votre prénom" ng-model="modifyProfil.prenom"><br />
+            Pseudo: {{ infos.pseudo }} <input type="text" placeholder="Votre pseudo" ng-model="modifyProfil.pseudo"><br />
+            Rang: {{ infos.rang }} <input type="text" placeholder="Votre rang" ng-model="modifyProfil.rang"><br />
+            Serveur: {{ infos.serveur }} <input type="text" placeholder="Serveur préféré" ng-model="modifyProfil.serveur"><br />
+            <button type="button" ng-click="modifyP(modifyProfil)">Modifier mon profil</button>
+        </div>
+    </div>    
+</section>
