@@ -38,7 +38,7 @@ app.controller("loginCtrl", ['$scope', '$http', '$location','loginService', func
         $promise.then(function(msg) {
             if (msg.data == "succes") {
                 console.log("Modifications effectuée")
-                $location.path('/accueil')
+                $location.path('/profil')
             }
             else
                 console.log("Modifications échouée")

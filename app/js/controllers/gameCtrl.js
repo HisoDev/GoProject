@@ -1,7 +1,7 @@
 'use strict';
 
 //Création du contrôleur
-app.controller("gameCtrl" , function($scope, plateauFactory, pierreFactory) {
+app.controller("gameCtrl" , function($scope, $http, plateauFactory, pierreFactory) {
         
 //Création du Goban
 $scope.game = new Games(pierreFactory,plateauFactory)
@@ -9,6 +9,22 @@ $scope.afficherGoban = plateauFactory.image
 $scope.nbr = 0
 $scope.nbGroup = 0;
 $scope.groups = [];
+
+//Sauver une partie
+$scope.saveGame = function() {
+    var savePartie
+    savePartie = $scope.game.save()
+    var $promise = $http.post("data/save_partie.php", savePartie)
+    $promise.then(function(msg) {
+        console.log(msg.data)
+        if (msg.data == "succes PHP SavePartie") {
+            console.log("Succes Save Partie")
+        }
+        else {
+            console.log("Echec Save Partie")
+        }
+    })
+}
 
 //--------------------------------------------------------------------------------------------------------                
 //Fonction qui pose une pierre blanche ou noire sur une intersection vide
@@ -18,14 +34,18 @@ $scope.posePierre = function(position) {
         if ($scope.nbr%2 === 0) {
             if ($scope.compterPierre(position, "noir", 8)){
                 position.setCouleur("noir");
+                $scope.game.joueCoup(position.coordonnee.toString())
                 $scope.nbr++
+                console.log($scope.game.coupJoue)
             } else {
                 console.log("Vous ne pouvez pas jouer là (posePierre)");
             }
         } else {
             if ($scope.compterPierre(position, "blanc", 8)){
                 position.setCouleur("blanc");
+                $scope.game.joueCoup(position.coordonnee.toString())
                 $scope.nbr++
+                console.log($scope.game.coupJoue)
             } else {
                 console.log("Vous ne pouvez pas jouer là (posePierre)");
             }
@@ -142,7 +162,7 @@ $scope.compterPierre = function(position, couleur, taille) {
                 } else if (dernierGroupIndex !== groupAmiIndex) { // Si on est sur un second group on doit reattribuer un nouveau numéro de group à toutes les pierres
 
                     for(var groupAmiCoor =0; groupAmiCoor < $scope.groups[groupAmiIndex].length; groupAmiCoor++) {
-                        var positionAmi = $scope.affichagePlateau.vecteurLigne[
+                        var positionAmi = $scope.game.getPlateau().vecteurLigne[
                             $scope.groups[groupAmiIndex][groupAmiCoor].indexLigne]
                             .cols[$scope.groups[groupAmiIndex][groupAmiCoor].indexCol];
                         positionAmi.groupIndex = dernierGroupIndex;
