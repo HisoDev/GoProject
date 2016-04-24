@@ -16,7 +16,9 @@ app.factory('subService', function($http, $location){
                             else
                                 console.log("register echec")
                         })
+                        alert("Merci, vous êtes bien inscrit.")
                         $location.path('/accueil')
+                        
                     }
                     else {
                         console.log(msg.data+" echec")

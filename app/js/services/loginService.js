@@ -16,6 +16,7 @@ app.factory('loginService', function($http, $location, sessionService){
                     if (uid) {
                         //scope.msgtxt = "Informations correctes."
                         sessionService.set('uid', uid)
+                        alert("Vous êtes connecté, vous allez être redirigé vers votre profil.")
                         $location.path('/profil')
                     }
                 }

@@ -25,7 +25,7 @@ var app = angular.module('GoProject', ['ngRoute']);
                     templateUrl: 'views/partials/menuJouer.html'})
                 .when('/jouer', { 
                     controller: 'gameCtrl',
-                    templateUrl: 'views/partials/Jouer.html'})
+                    templateUrl: 'views/partials/jouer.html'})
                 .when('/forum', { templateUrl: 'views/partials/forum.html'})
                 .when('/contact', { templateUrl: 'views/partials/contact.html'})
                 .when('/liens', { templateUrl: 'views/partials/liens.html'})

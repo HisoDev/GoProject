@@ -4,7 +4,7 @@ $data = json_decode(file_get_contents("php://input"));
 $user = $data->identifiant;
 $pwd = $data->pwd;
 //print "Je suis dans RegisterPHP";
-$req = "INSERT INTO login (identifiant,password,prenom,pseudo,rang,serveur) VALUES ('$user', '$pwd','Vide','Vide','X','X')";
+$req = "INSERT INTO login (identifiant,password,prenom,pseudo,rang,serveur) VALUES ('$user', '$pwd','Vide','$user','X','X')";
 $res = $db->query($req); //or die ('Erreur'.$req.''.mysql_error());
 if(!$res) {
     print "echec";

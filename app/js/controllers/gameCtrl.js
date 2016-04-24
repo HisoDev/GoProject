@@ -1,17 +1,21 @@
 'use strict';
 
 //Création du contrôleur
-app.controller("gameCtrl" , function($scope, $http, plateauFactory, pierreFactory) {
+app.controller("gameCtrl", ['$scope', '$http', '$location', 'plateauFactory', 'pierreFactory', function($scope, $http, $location, plateauFactory, pierreFactory) {
         
 //Création du Goban
 $scope.game = new Games(pierreFactory,plateauFactory)
 $scope.afficherGoban = plateauFactory.image
 $scope.nbr = 0
-$scope.nbGroup = 0;
-$scope.groups = [];
+$scope.nbGroup = 0
+$scope.groups = []
+$scope.couleur = 0
+$scope.totCapture = 0
 
 //Sauver une partie
 $scope.saveGame = function() {
+    var laCouleur = $scope.game.makeCouleur($scope.couleur)
+    console.log(laCouleur)
     var savePartie
     savePartie = $scope.game.save()
     var $promise = $http.post("data/save_partie.php", savePartie)
@@ -19,6 +23,8 @@ $scope.saveGame = function() {
         console.log(msg.data)
         if (msg.data == "succes PHP SavePartie") {
             console.log("Succes Save Partie")
+            alert("La partie est finie, elle a été enregistrée ! ")
+            $location.path('/menu')
         }
         else {
             console.log("Echec Save Partie")
@@ -180,68 +186,7 @@ $scope.compterPierre = function(position, couleur, taille) {
     }
     return peutposer;
 }
-//    //var iGroup, vivant = false;
-//    //for (iGroup = 0, iGroup<$scope.groups[position.groupIndex].length && !vivant; iGroup++) {
-//    //    if ($scope.groups[position.groupIndex].compterLiberte() > 0) {
-//    //        vivant = true;
-//    //    }
-//    //}
-//    //
-//    //if (vivant) {
-//    //    // Jouer pierre
-//    //} else { // delete group
-//    //    for (iGroup = 0, iGroup<$scope.groups[position.groupIndex].length; iGroup++) {
-//    //        $scope.groups[position.groupIndex].setCouleur("vide");
-//    //    }
-//    //}
-//
-//    if (couleur == "noir") {
-//        //Test après vérification des intersections autour du coup joué.
-//        if ($scope.nbrLiberties >= 1) {
-//            console.log("Vous pouvez jouer. Liberté = "+$scope.nbrLiberties+" Blanc= "+$scope.nbrBlanc+" Noir = "+$scope.nbrNoir)
-//            //$scope.affichagePlateau.matriceNoir[i].cols[j].valeur = $scope.nbrLiberties;
-//            $scope.pierreCapturee(position,"noir");
-//            return true
-//        }
-//        else if ($scope.nbrLiberties == 0 && $scope.nbrBlanc == 4) {
-//            //Interdit sauf si les blanc autour n'ont qu'une liberté.
-//            console.log("Vous avez joué à un endroit sans libertés. Coup interdit. Liberté = "+$scope.nbrLiberties+" Blanc= "+$scope.nbrBlanc+" Noir = "+$scope.nbrNoir)
-//            return false
-//        }
-//        else if ($scope.nbrLiberties == 0 && $scope.nbrNoir >= 1) {
-//            console.log("Vous pouvez jouer (Noir). Liberté = "+$scope.nbrLiberties+" Blanc= "+$scope.nbrBlanc+" Noir ="+$scope.nbrNoir)
-//            //$scope.affichagePlateau.matriceNoir[i].cols[j].valeur = $scope.nbrLiberties;
-//            $scope.pierreCapturee(position,"noir");
-//            return true
-//        }
-//    }
-//    else {
-//        //Test après vérification des intersections autour du coup joué.
-//        if ($scope.nbrLiberties >= 1) {
-//            console.log("Vous pouvez jouer. Liberté = "+$scope.nbrLiberties+" Blanc= "+$scope.nbrBlanc+" Noir = "+$scope.nbrNoir)
-//            //$scope.affichagePlateau.matriceBlanc[i].cols[j].valeur = $scope.nbrLiberties;
-//            $scope.pierreCapturee(position,"blanc");
-//            return true
-//        }
-//        else if ($scope.nbrLiberties == 0 && $scope.nbrNoir == 4) {
-//            //Interdit sauf si les blanc autour n'ont qu'une liberté.
-//            console.log("Vous avez joué à un endroit sans libertés. Coup interdit. Liberté = "+$scope.nbrLiberties+" Blanc= "+$scope.nbrBlanc+" Noir = "+$scope.nbrNoir)
-//            return false
-//        }
-//        else if ($scope.nbrLiberties == 0 && $scope.nbrBlanc >= 1) {
-//            console.log("Vous pouvez jouer (Blanc). Liberté = "+$scope.nbrLiberties+" Blanc= "+$scope.nbrBlanc+" Noir = "+$scope.nbrNoir)
-//            //$scope.affichagePlateau.matriceBlanc[i].cols[j].valeur = $scope.nbrLiberties;
-//            $scope.pierreCapturee(position,"blanc");
-//            return true
-//        }
-//    }
-//}
-
-//--------------------------------------------------------------------------------------------------------
-//Fonction qui va capturer toutes les pierres avec une seule liberté.
-//$scope.pierreCapturee = function (position, couleur) {
-//}
-});
+}]);
 
 
 function Games(pierreFactory, plateauFactory) {
@@ -251,6 +196,10 @@ function Games(pierreFactory, plateauFactory) {
     this.coupJoue = []
     this.joueCoup = function (Coord) {
         this.coupJoue.push(Coord)
+    }
+    this.couleur = 0
+    this.makeCouleur = function (couleur) {
+        this.couleur = couleur
     }
     this.etat = false //début de partie => false | fin de partie => true
     this.nbrCoup = 0
@@ -310,6 +259,24 @@ function NbrPlateau() {
 function Position(indexLigne, indexCol, pierreFactory, plateau) {
     this.coordonnee = new Coordonnee(indexLigne, indexCol)
     this.pierreFactory = pierreFactory;
+    /*if(this.coordonnee.indexLigne == 0 && this.coordonnee.cols == 0)
+        this.imageEnCours = pierreFactory.coin3
+    if(this.coordonnee.indexLigne == 8 && this.coordonnee.cols == 8)
+        this.imageEnCours = pierreFactory.coin2
+    if(this.coordonnee.indexLigne == 0 && this.coordonnee.cols == 8)
+        this.imageEnCours = pierreFactory.coin1
+    if(this.coordonnee.indexLigne == 8 && this.coordonnee.cols == 0)
+        this.imageEnCours = pierreFactory.coin4
+    if(this.coordonnee.indexLigne == 0)
+        this.imageEnCours = pierreFactory.bord4
+    if(this.coordonnee.indexLigne == 8)
+        this.imageEnCours = pierreFactory.bord1
+    if(this.coordonnee.indexCol == 0)
+        this.imageEnCours = pierreFactory.bord3
+    if(this.coordonnee.indexCol == 8)
+        this.imageEnCours = pierreFactory.bord2
+    else
+        this.imageEnCours = pierreFactory.image3*/
     this.imageEnCours = pierreFactory.image3;
     this.plateau = plateau;
     this.groupIndex = undefined;
@@ -329,7 +296,27 @@ function Position(indexLigne, indexCol, pierreFactory, plateau) {
         } else if (couleur === "noir") {
             this.imageEnCours = pierreFactory.image2;
         } else {
+            /*if(this.coordonnee.indexLigne == 0 && this.coordonnee.cols == 0)
+                this.imageEnCours = pierreFactory.coin3
+            if(this.coordonnee.indexLigne == 8 && this.coordonnee.cols == 8)
+                this.imageEnCours = pierreFactory.coin2
+            if(this.coordonnee.indexLigne == 0 && this.coordonnee.cols == 8)
+                this.imageEnCours = pierreFactory.coin1
+            if(this.coordonnee.indexLigne == 8 && this.coordonnee.cols == 0)
+                this.imageEnCours = pierreFactory.coin4
+            if(this.coordonnee.indexLigne == 0)
+                this.imageEnCours = pierreFactory.bord4
+            if(this.coordonnee.indexLigne == 8)
+                this.imageEnCours = pierreFactory.bord1
+            if(this.coordonnee.indexCol == 0)
+                this.imageEnCours = pierreFactory.bord3
+            if(this.coordonnee.indexCol == 8)
+                this.imageEnCours = pierreFactory.bord2*/
+            /*else
+                this.imageEnCours = pierreFactory.image3*/
+                
             this.imageEnCours = pierreFactory.image3;
+            
         }
     }
 

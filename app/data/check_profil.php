@@ -16,9 +16,6 @@ while($resultat = $res->fetch()) {
         "serveur" => $resultat['serveur'],
         );
 }
-//print $vecteur[0];
-//print "testPHP";
 echo json_encode($vecteur[0]);
-//return json_encode($vecteur[0]); 
-//}
+
 ?>

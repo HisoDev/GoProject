@@ -1,15 +1,15 @@
 html {
-	background: #FFA500;
+	background: #F0E68C;
 }
 body {
-    background: #FFA500;
+    background: #F0E68C;
 	max-width: 100%;
 	min-width: 100%;
     margin: 0;
 }
 
 footer {
-    background: #FFA500;
+    background: #F0E68C;
     max-width: 100%;
 	min-width: 100%;
     margin: 0;
@@ -74,25 +74,34 @@ footer {
 
 ul {
 	display: table;
-	background: linear-gradient(darkorange,darkgoldenrod);
-	background: -webkit-linear-gradient(darkorange, darkgoldenrod);
-	background: -moz-linear-gradient(darkorange, darkgoldenrod);
-	background: -o-linear-gradient(darkorange, darkgoldenrod);
-	background: -linear-gradient(darkorange, darkgoldenrod);
+	background: linear-gradient(#F0E68C,#DAA520);
+	background: -webkit-linear-gradient(#F0E68C, #DAA520);
+	background: -moz-linear-gradient(#F0E68C, #DAA520);
+	background: -o-linear-gradient(#F0E68C, #DAA520);
+	background: -linear-gradient(#F0E68C, #DAA520);
 	border-radius: 6px;
 	box-shadow: 0 3px 5px rgba(0,0,0,.2);
 	text-align: center;
+    
+}
+div#cadre {
+    border: 3px #DAA520 solid;
 }
 div#menuGauche {
     float: left;
     width: 100px;
-    background-color: darkgoldenrod;
+    background-color: #BDB76B;
 }
-
+div#autreMenu {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    background-color: #BDB76B;
+}
 section {
-	border: 1px darkorange solid;
+	border: 1px #BDB76B solid;
     text-align: center;
-    background: #B8860B;
+    background: #BDB76B;
     width: 800px;
     height: auto;
 
@@ -100,14 +109,14 @@ section {
     margin-right: auto;
     
 }
-td {
+/*td {
 	border: 2px solid darkorange;
 }
 tr {
 	border: 5px solid darkorange;
-}
+}*/
 p#cadre {
-    background: #CD950C;
+    background: #A9A9A9;
     width: 50%;
     margin: auto;
     
@@ -115,4 +124,8 @@ p#cadre {
 table {
     margin-left: auto;
     margin-right: auto;
+}
+
+.marge {
+margin-left: 5em;
 }

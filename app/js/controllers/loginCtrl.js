@@ -1,8 +1,9 @@
 'use strict';
 
 //Contrôleur qui va permettre de gérer les connexions
-app.controller("loginCtrl", ['$scope', '$http', '$location','loginService', function($scope, $http, $location, loginService) {
+app.controller("loginCtrl", ['$scope', '$http', '$location', '$route', 'loginService', function($scope, $http, $location, $route, loginService) {
     $scope.msgtxt = "";
+    $scope.bonjour = "";
     
     $scope.login = function(loginInfo) {
         loginService.login(loginInfo, $scope); //appel du service pour se logger.
@@ -24,6 +25,7 @@ app.controller("loginCtrl", ['$scope', '$http', '$location','loginService', func
             if (msg.data) {
                 console.log("success")
                 $scope.infos = msgPromise
+                
             }
             else {
                 console.log("echec")
@@ -37,11 +39,11 @@ app.controller("loginCtrl", ['$scope', '$http', '$location','loginService', func
         var $promise = $http.post("data/modify_profil.php", modifyProfil)
         $promise.then(function(msg) {
             if (msg.data == "succes") {
-                console.log("Modifications effectuée")
-                $location.path('/profil')
+                alert("Modifications réussies")
+                $location.path('/accueil')
             }
             else
-                console.log("Modifications échouée")
+                $scope.modif = "Modifications échouées"
         })
     }
 }]);

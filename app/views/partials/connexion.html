@@ -4,10 +4,10 @@
         <div class="form-group">
             <div>
                 Bienvenue: {{loginInfo.identifiant}}<br />
-                <strong>Identifiant:</strong><br /> 
+                <strong>Identifiant (votre e-mail):</strong><br /> 
                 <input type="email" placeholder="Votre e-mail" ng-model="loginInfo.identifiant" required><br />
-                <strong>Mot de passe:</strong><br /> 
-                <input type="password" placeholder="Votre mot de passe" ng-model="loginInfo.pwd" required><br /><br />
+                <strong>Mot de passe (6 caractères maximum):</strong><br /> 
+                <input type="password" placeholder="Votre mot de passe" maxlength="6" ng-model="loginInfo.pwd" required><br /><br />
                 <button type="button" ng-click="login(loginInfo)" ng-disabled="formLogin.$invalid">Se connecter</button>
                 <p><a href="#/inscription">Pas encore inscrit ?</a></p>
                 <p><strong>{{msgtxt}}</strong></p>

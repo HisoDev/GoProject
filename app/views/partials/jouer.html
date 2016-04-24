@@ -1,27 +1,34 @@
 <section>
     <article ng-controller="gameCtrl">
-            <div >
+            <div>
                 <div id="menuGauche">
-                    <button ng-click="">Passer</button><br />
-                    <button ng-click="saveGame()">Abandonner</button><br />
+                    <ul class="nav">
+				        <li><a ng-click="">Passer</a></li>
+				        <li><a ng-click="saveGame()" ng-model="save">Abandonner</a></li>
+			        </ul>
                 </div>
                 <div id="global">
                     <p>
-                        <h2>Bonne partie !</h2>
-                    </p>
+                        <h4>Pour jouer au Go, il vous suffit de clicer sur le plateau ci-dessous.<br />
+                        Si vous voulez terminer la partie, clicer sur <strong><u>"abandonner"</u></strong>.<br />
+                        Bonne partie !</h4>
+                    </p><br />
+
+                    <h4>Nombre de coup: {{ nbr }}</h4>
+                    <!--<h4>Prisonniers noirs: {{ totCapture }} | Prisonniers blancs: {{ totCapture }}</h4>-->
+                        <table>
+                            <div>
+                                <tr ng-repeat="ligne in game.getPlateau().vecteurLigne">  
+                                    <td ng-repeat="position in ligne.cols track by $index">
+                                        <div ng-click="posePierre(position)">
+                                            <img ng-src="{{ position.imageEnCours }}" alt="">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </div>
+                        </table>
                     <hr>
-                    <table >
-                        <tbody>
-                            <tr ng-repeat="ligne in game.getPlateau().vecteurLigne">  
-                                <td ng-repeat="position in ligne.cols track by $index">
-                                    <div ng-click="posePierre(position)">
-                                        <img ng-src="{{ position.imageEnCours }}" alt="">
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <hr>
+                    <p>Voulez-vous rejouer ? <a href="#/menu">Oui</a> - <a href="#/accueil">Non</a></p>
                 </div>
             </div>   
     </article>
