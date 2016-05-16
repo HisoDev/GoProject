@@ -19,7 +19,9 @@ var app = angular.module('GoProject', ['ngRoute']);
                 .when('/inscription', { 
                     controller: 'subCtrl',
                     templateUrl: 'views/partials/inscription.html'})
-                .when('/bash', { templateUrl: 'views/partials/bash.html'})
+                .when('/affichePartie', { 
+                    controller: 'gameCtrl',
+                    templateUrl: 'views/partials/affichePartie.html'})
                 .when('/menu', { 
                     controller: 'gameCtrl',
                     templateUrl: 'views/partials/menuJouer.html'})
@@ -49,6 +51,16 @@ app.run(function($rootScope, $location, loginService) {
     var routesPermissionCo = ['/profil'] //Pour aller sur le profil, il doit être connecté
     $rootScope.$on('$routeChangeStart', function() {
         if(routesPermissionCo.indexOf($location.path()) !=-1) {
+            var connected = loginService.isLogged();
+            connected.then(function(msg) {
+                if(!msg.data)
+                    $location.path('/connexion')
+            })
+        }
+    })
+    var routesPermissionPJ = ['/affichePartie'] //Pour aller sur partie jouée, il doit être connecté
+    $rootScope.$on('$routeChangeStart', function() {
+        if(routesPermissionPJ.indexOf($location.path()) !=-1) {
             var connected = loginService.isLogged();
             connected.then(function(msg) {
                 if(!msg.data)

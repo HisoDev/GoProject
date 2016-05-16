@@ -84,6 +84,16 @@ ul {
 	text-align: center;
     
 }
+table#Partie {
+    border: 1px solid;
+}
+tr#Partie {
+    border: 1px solid;
+}
+td#Partie {
+    border: 1px solid;
+}
+
 div#cadre {
     border: 3px #DAA520 solid;
 }

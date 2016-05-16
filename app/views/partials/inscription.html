@@ -6,7 +6,7 @@
                 Bienvenue: {{signUpInfo.identifiant}}<br />
                 <strong>Identifiant (votre e-mail):</strong><br /> 
                 <input type="email" placeholder="Votre e-mail" ng-model="signUpInfo.identifiant" required><br />
-                <strong>Mot de passe (6 caractères maximum):</strong><br /> 
+                <strong>Mot de passe (entre 4 et 6 caractères maximum):</strong><br /> 
                 <input type="password" placeholder="Votre mot de passe" maxlength="6" ng-model="signUpInfo.pwd" required><br /><br />
                 <button type="button" ng-click="signUserUp(signUpInfo)" ng-disabled="formSub.$invalid">S'inscrire</button>
                 <p>{{msgtxt}}</p>

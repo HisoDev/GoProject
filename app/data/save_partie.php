@@ -10,7 +10,9 @@ $joueurNoir = "noir";
 $etat = "1"; //partie fini en 1, en cours à 0
 $savePartie = $data;
 $ident = $_SESSION['ident'];
-$req = "INSERT INTO parties (joueurBlanc, joueurNoir, nom_Partie, etat, savePartie) VALUES ('$ident','$joueurNoir','$_SESSION[id_game]','$etat','$savePartie')";
+$datePartie = date("Y-m-d H:i:s");
+$quiGagne = "Vide";
+$req = "INSERT INTO parties (joueurBlanc, joueurNoir, nom_Partie, etat, savePartie, QuiGagne, datePartie) VALUES ('$ident','$joueurNoir','$_SESSION[id_game]','$etat','$savePartie','$quiGagne', '$datePartie')";
 $res = $db->query($req);
 if(!$res) {
     print "echec PHP SavePartie";

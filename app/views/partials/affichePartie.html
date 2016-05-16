@@ -1,0 +1,39 @@
+<section>
+    <h3>Profil des parties jouées</h3>
+    <div>
+        <div>
+            <table id="Partie">
+                <div>
+                    <tr id="Partie">
+                        <td id="Partie">Joueur</td>
+                        <td id="Partie">Date de la partie</td>
+                        <td id="Partie">Coups de la partie</td>
+                    </tr>
+                    <tr id="Partie" ng-repeat="partie in parties track by $index">  
+                        <td id="Partie">{{ partie.joueurBlanc }}</td>
+                        <td id="Partie"><a ng-click="chargerPartie(partie.savePartie)">{{ partie.datePartie }}</a></td>
+                        <td id="Partie">{{ partie.savePartie }}</td>
+                    </tr>
+                </div>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <div ng-show="show">
+            <h4>Nombre de coup: {{ nbrPC }}</h4>
+            <!--<h4>Prisonniers noirs: {{ totCapture }} | Prisonniers blancs: {{ totCapture }}</h4>-->
+                <table>
+                    <div>
+                        <tr ng-repeat="ligne in game.getPlateau().vecteurLigne">  
+                            <td ng-repeat="position in ligne.cols track by $index">
+                                <div>
+                                    <img ng-src="{{ position.imageEnCours }}" alt="">
+                                </div>
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+                <br /><button type="button" ng-click="avancer()">Avancer</button>
+            <hr>
+        </div> 
+</section>

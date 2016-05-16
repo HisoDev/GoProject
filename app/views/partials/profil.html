@@ -3,11 +3,7 @@
         <h2><p>Bienvenue {{ infos.pseudo }}</p></h2>
     </div>
     <h3>Votre profil</h3>
-    
-    <!--<form role="form" name="formProfil">
-        <input type="email" ng-model="profil.mail" required>
-        <button type="button" ng-click="profils(profil)">Votre profil va être affiché</button><br />
-    </form>-->
+
     <div>
         <div>
             <strong>Prénom:</strong> {{ infos.prenom }} <span class="marge"></span><input type="text" placeholder="Votre prénom" ng-model="modifyProfil.prenom"><br />
@@ -15,7 +11,7 @@
             <strong>Rang:</strong> {{ infos.rang }} <span class="marge"></span><input type="text" placeholder="Votre rang" ng-model="modifyProfil.rang"><br />
             <strong>Serveur:</strong> {{ infos.serveur }} <span class="marge"></span><input type="text" placeholder="Serveur préféré" ng-model="modifyProfil.serveur"><br />
             <!--<strong>Nombre de partie jouée:</strong> {{ infos.nbr }}<br />-->
-            <button type="button" ng-click="modifyP(modifyProfil)">Modifier mon profil</button> <strong>{{ modif }}</strong>
+            <br /><button type="button" ng-click="modifyP(modifyProfil)">Modifier mon profil</button> <strong>{{ modif }}</strong>
         </div>
     </div>    
 </section>

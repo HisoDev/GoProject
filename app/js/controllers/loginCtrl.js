@@ -13,19 +13,10 @@ app.controller("loginCtrl", ['$scope', '$http', '$location', '$route', 'loginSer
     $scope.profils = function() {
         var $promise = $http.post("data/check_profil.php")
         $promise.then(function(msg) {
-            console.log(msg.data['serveur'])
             var msgPromise = msg.data
-            console.log(msgPromise['pseudo'])
-            var profilUser = {
-                pseudo: msgPromise['pseudo'],
-                rang: msgPromise['rang'],
-                serveur: msgPromise['serveur']
-            };
-            console.log(profilUser['rang'])
             if (msg.data) {
                 console.log("success")
                 $scope.infos = msgPromise
-                
             }
             else {
                 console.log("echec")

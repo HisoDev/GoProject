@@ -7,35 +7,28 @@ app.controller("gameCtrl", ['$scope', '$http', '$location', 'plateauFactory', 'p
 $scope.game = new Games(pierreFactory,plateauFactory)
 $scope.afficherGoban = plateauFactory.image
 $scope.nbr = 0
+$scope.nbrPC = 0
 $scope.nbGroup = 0
 $scope.groups = []
 $scope.couleur = 0
 $scope.totCapture = 0
 
-//Sauver une partie
-$scope.saveGame = function() {
-    var laCouleur = $scope.game.makeCouleur($scope.couleur)
-    console.log(laCouleur)
-    var savePartie
-    savePartie = $scope.game.save()
-    var $promise = $http.post("data/save_partie.php", savePartie)
+
+//Créer une partie
+/*$scope.create = function () {
+    var $promise = $http.post("data/create_partie.php", )
     $promise.then(function(msg) {
         console.log(msg.data)
-        if (msg.data == "succes PHP SavePartie") {
-            console.log("Succes Save Partie")
-            alert("La partie est finie, elle a été enregistrée ! ")
-            $location.path('/menu')
-        }
-        else {
-            console.log("Echec Save Partie")
-        }
+        
     })
-}
+}*/
+
+
 
 //--------------------------------------------------------------------------------------------------------                
 //Fonction qui pose une pierre blanche ou noire sur une intersection vide
 $scope.posePierre = function(position) {
-    console.log("Coup jouez en " + position.coordonnee.indexLigne + "," + position.coordonnee.indexCol);
+    console.log("Coup joué en " + position.coordonnee.indexLigne + "," + position.coordonnee.indexCol);
     if (position.getCouleur() === "vide") {
         if ($scope.nbr%2 === 0) {
             if ($scope.compterPierre(position, "noir", 8)){
@@ -69,63 +62,63 @@ $scope.compterPierre = function(position, couleur, taille) {
     $scope.nbrNoir = 0
     //Check les libertés d'une pierre jouée.
     //intersection à gauche
-    var i = position.coordonnee.indexLigne;
-    var j = position.coordonnee.indexCol;
+    var i = position.coordonnee.indexLigne
+    var j = position.coordonnee.indexCol
 
     var iVoisin;
-    console.log("i : " + i + " j : " + j);
-    console.log(position.voisins);
+    console.log("i : " + i + " j : " + j)
+    console.log(position.voisins); // Donne les 4 libertés de la pierre jouée
 
-    var peutposer = false;
+    var peutposer = false
 
     // Variable pour l'utilisation des groups
-    var groupPierre, iGroupPierre, groupScanneEnnemi = [], groupScanneAmi = [], groupCoor, groupMort;
+    var groupPierre, iGroupPierre, groupScanneEnnemi = [], groupScanneAmi = [], groupCoor, groupMort
 
     for (iVoisin = 0; iVoisin < position.voisins.length; iVoisin++) {
-        var coor = position.voisins[iVoisin];
+        var coor = position.voisins[iVoisin]
         // Si c'est une pierre adverse
-        var voisin = $scope.game.getPlateau().vecteurLigne[coor.indexLigne].cols[coor.indexCol];
+        var voisin = $scope.game.getPlateau().vecteurLigne[coor.indexLigne].cols[coor.indexCol]
 
         if (voisin.getCouleur() === "vide") { // au moins une libertée
             console.log("On peut poser, au moins une liberté")
-            peutposer = true;
+            peutposer = true
         } else if (couleur !== voisin.getCouleur()) { // Le voisin est un ennemi
             // Calcul si le groupe est capturé
-            console.log("On est sur un group ennemi. Cacul si capture");
-            groupPierre = $scope.groups[voisin.groupIndex];
-            groupMort = true;
+            console.log("On est sur un group ennemi. Calcul si capture")
+            groupPierre = $scope.groups[voisin.groupIndex]
+            groupMort = true
             if (groupScanneEnnemi.indexOf(voisin.groupIndex) < 0) {
-                groupScanneEnnemi.push(voisin.groupIndex);
+                groupScanneEnnemi.push(voisin.groupIndex)
                 console.log("Calcul pour le group " + voisin.groupIndex + " qui contient " + groupPierre.length + " pierre(s)");
                 console.log(groupPierre);
                 for (iGroupPierre = 0; iGroupPierre < groupPierre.length && groupMort; iGroupPierre++) {
-                    groupCoor = groupPierre[iGroupPierre];
-                    console.log("Calcul des liberte pour coor " + groupCoor.indexLigne + "," + groupCoor.indexCol);
+                    groupCoor = groupPierre[iGroupPierre]
+                    console.log("Calcul des libertes pour coor " + groupCoor.indexLigne + "," + groupCoor.indexCol)
                     if ($scope.game.getPlateau().vecteurLigne[groupCoor.indexLigne].cols[groupCoor.indexCol].compterLiberte(position.coordonnee) > 0) {
-                        groupMort = false;
+                        groupMort = false
                     }
                 }
                 if (groupMort) { // suppression du group et pierre peut etre posée
-                    console.log("Le group " + voisin.groupIndex + " est mort");
+                    console.log("Le group " + voisin.groupIndex + " est mort")
                     for (iGroupPierre = 0; iGroupPierre < groupPierre.length; iGroupPierre++) {
-                        groupCoor = groupPierre[iGroupPierre];
-                        $scope.game.getPlateau().vecteurLigne[groupCoor.indexLigne].cols[groupCoor.indexCol].setCouleur("vide");
+                        groupCoor = groupPierre[iGroupPierre]
+                        $scope.game.getPlateau().vecteurLigne[groupCoor.indexLigne].cols[groupCoor.indexCol].setCouleur("vide")
                     }
-                    peutposer = true;
+                    peutposer = true
                 }
             } else {
-                console.log("Group " + voisin.groupIndex + " a déjà été compté");
+                console.log("Group " + voisin.groupIndex + " a déjà été compté")
             }
         } else if (couleur === voisin.getCouleur()) {
-            console.log("On est sur un group ami");
+            console.log("On est sur un group ami")
 
-            console.log(groupScanneAmi.indexOf(voisin.groupIndex));
+            console.log(groupScanneAmi.indexOf(voisin.groupIndex))
             if (groupScanneAmi.indexOf(voisin.groupIndex) < 0) { // On a pas encore scanné ce group
-                groupScanneAmi.push(voisin.groupIndex);
+                groupScanneAmi.push(voisin.groupIndex)
                 console.log("Group Scranne ami " + voisin.groupIndex)
-                groupPierre = $scope.groups[voisin.groupIndex];
+                groupPierre = $scope.groups[voisin.groupIndex]
                 for (iGroupPierre = 0; iGroupPierre < groupPierre.length && !peutposer; iGroupPierre++) { // boucle foreach
-                    groupCoor = groupPierre[iGroupPierre];
+                    groupCoor = groupPierre[iGroupPierre]
                     if ($scope.game.getPlateau().vecteurLigne[groupCoor.indexLigne].cols[groupCoor.indexCol].compterLiberte(position.coordonnee) > 0) {
                         peutposer = true
                     }
@@ -133,52 +126,52 @@ $scope.compterPierre = function(position, couleur, taille) {
             }
 
         } else {
-            console.log("Ce cas ne peut pas arriver, puisqu'on a fait le cas oû le voisin est vide, blanc ou noir");
+            console.log("Ce cas ne peut pas arriver, puisqu'on a fait le cas oû le voisin est vide, blanc ou noir")
         }
     }
 
 
     console.log("----------------------------------------------")
     console.log($scope.groups)
-    console.log(groupScanneAmi);
+    console.log(groupScanneAmi)
     console.log(groupScanneEnnemi)
     console.log("----------------------------------------------")
     if (peutposer) {
         console.log("Calcul du regroupage")
         if (groupScanneAmi.length === 0) { // creation d'un nouveau group, pas de regroupage
-            position.groupIndex = $scope.groups.length;
+            position.groupIndex = $scope.groups.length
             $scope.groups[position.groupIndex] = [] // creation de l'array du group
-            $scope.groups[position.groupIndex].push(position.coordonnee); // on pourrait pusher toute la position
-            $scope.nbGroup++; // A verifier si utile
-            console.log("N'a pas de regroupage a faire creation d'un nouveau group " + position.groupIndex + " " + $scope.groups[position.groupIndex]);
+            $scope.groups[position.groupIndex].push(position.coordonnee) // on pourrait pusher toute la position
+            $scope.nbGroup++ // A verifier si utile
+            console.log("N'a pas de regroupage à faire creation d'un nouveau group " + position.groupIndex + " " + $scope.groups[position.groupIndex])
         } else {
-            console.log("Regroupage");
-            var dernierGroupIndex = undefined;
+            console.log("Regroupage")
+            var dernierGroupIndex = undefined
             var iGroupAmi, groupAmiIndex
             for (iGroupAmi = 0; iGroupAmi < groupScanneAmi.length ; iGroupAmi++) { // boucle for each pour changer groupAmi = index Group Ami
-                groupAmiIndex = groupScanneAmi[iGroupAmi];
-                console.log(groupScanneAmi);
+                groupAmiIndex = groupScanneAmi[iGroupAmi]
+                console.log(groupScanneAmi)
                 console.log("Group Ami " + groupAmiIndex)
                 console.log($scope.groups[groupAmiIndex])
                 if (dernierGroupIndex === undefined) { // si le dernier group n'est pas encore défini, on le défini au group courant
-                    dernierGroupIndex = groupAmiIndex;
-                    position.groupIndex = dernierGroupIndex;
-                    $scope.groups[dernierGroupIndex].push(position.coordonnee);
+                    dernierGroupIndex = groupAmiIndex
+                    position.groupIndex = dernierGroupIndex
+                    $scope.groups[dernierGroupIndex].push(position.coordonnee)
                     console.log("Attache la position " + position.coordonnee.indexLigne +","+position.coordonnee.indexCol + " au group " + dernierGroupIndex)
                 } else if (dernierGroupIndex !== groupAmiIndex) { // Si on est sur un second group on doit reattribuer un nouveau numéro de group à toutes les pierres
 
-                    for(var groupAmiCoor =0; groupAmiCoor < $scope.groups[groupAmiIndex].length; groupAmiCoor++) {
+                    for (var groupAmiCoor = 0; groupAmiCoor < $scope.groups[groupAmiIndex].length; groupAmiCoor++) {
                         var positionAmi = $scope.game.getPlateau().vecteurLigne[
                             $scope.groups[groupAmiIndex][groupAmiCoor].indexLigne]
-                            .cols[$scope.groups[groupAmiIndex][groupAmiCoor].indexCol];
-                        positionAmi.groupIndex = dernierGroupIndex;
-                        $scope.groups[dernierGroupIndex].push(positionAmi.coordonnee);
+                            .cols[$scope.groups[groupAmiIndex][groupAmiCoor].indexCol]
+                        positionAmi.groupIndex = dernierGroupIndex
+                        $scope.groups[dernierGroupIndex].push(positionAmi.coordonnee)
                         console.log("Reattache la position " + positionAmi.coordonnee
                             + " du group " + groupAmiIndex + " au group " + dernierGroupIndex)
                     }
                     // vide le group
-                    $scope.groups[groupAmiIndex] = [];
-                    console.log( $scope.groups[position.groupIndex]);
+                    $scope.groups[groupAmiIndex] = []
+                    console.log( $scope.groups[position.groupIndex])
                 } // Sinon le dernierGroup est le meme que le group Ami donc rien à faire
             }
             // on doit faire le regroupage
@@ -186,11 +179,88 @@ $scope.compterPierre = function(position, couleur, taille) {
     }
     return peutposer;
 }
+//-----------------------------------
+//Sauver une partie quand elle a été jouée
+$scope.saveGame = function() {
+    var savePartie
+    $scope.game.save = angular.toJson($scope.game.coupJoue)
+    console.log($scope.game.coupJoue)
+    console.log($scope.game.id)
+    console.log($scope.game.save)
+    var $promise = $http.post("data/save_partie.php", $scope.game.save)
+    $promise.then(function(msg) {
+        console.log(msg.data)
+        if (msg.data == "succes PHP SavePartie") {
+            console.log("Succes Save Partie")
+            alert("La partie est finie, elle a été enregistrée ! ")
+            $location.path('/menu')
+        }
+        else {
+            console.log("Echec Save Partie")
+        }
+    })
+}
+//-----------------------------------
+//Aller chercher les parties du joueur dans la base de données
+$scope.recharge = function() {
+    var $promise = $http.post("data/recharge_game.php")
+    $promise.then(function(msg) {
+        console.log(msg.data)
+        var partie = msg.data
+        if (msg.data) {
+            console.log("recharge succes")
+            $scope.parties = partie
+            angular.fromJson(partie.savePartie)
+            console.log(partie.savePartie)
+        }
+        else
+            console.log("recharge error")
+    })
+}
+$scope.parties = $scope.recharge()
+this.partieChoisie = []
+//-----------------------------------
+//recup coordonnée de la partie jouée
+$scope.recupCoor = function(i) {
+    console.log(i + "dans recupCoor")
+    var indexLigne = $scope.partieChoisie[i]
+    var indexCol = $scope.partieChoisie[i+2]
+    if ($scope.partieChoisie[i] == null) {
+        alert("La partie est finie")
+        $location.path('/profil')
+    }
+    else {
+        console.log($scope.partieChoisie)
+        return $scope.game.getPlateau().vecteurLigne[indexLigne].cols[indexCol]
+    }
+}
+
+//-----------------------------------
+//Charger la partie dans review
+$scope.chargerPartie = function (vectorGame) {
+    $scope.show = true
+    console.log(this)
+    console.log(vectorGame)
+    $scope.partieChoisie = vectorGame
+    console.log($scope.partieChoisie + "dans chargerPartie")
+}
+
+$scope.avancer = function() {
+    var i = 2+($scope.nbrPC*6)
+    var coord
+    console.log(this)
+    console.log(i + "dans avancer")
+    console.log($scope.partieChoisie + "dans avancer")
+    coord = $scope.recupCoor(i)
+    console.log(coord + " dans avancer")
+    $scope.posePierre(coord)
+    $scope.nbrPC++
+}
 }]);
 
 
 function Games(pierreFactory, plateauFactory) {
-    this.id = NbrPlateau()
+    this.id = nbrPlateau()
     this.pierreFactory = pierreFactory
     this.plateauFactory = plateauFactory
     this.coupJoue = []
@@ -214,9 +284,9 @@ function Games(pierreFactory, plateauFactory) {
         return this.etatPartie
     }
     
-    this.save = function() {
+    this.save /*= function() {
         return angular.toJson(this.coupJoue)
-    }
+    }*/
     
     this.charge = function(partie) {
         this.coupJoue = angular.fromJson(partie)
@@ -234,7 +304,7 @@ function Games(pierreFactory, plateauFactory) {
             this.plateau.vecteurLigne[i] = {}
             this.plateau.vecteurLigne[i].cols = []
             for (j=0;j<this.plateauFactory.taillePlateau[taille];j++) {
-                this.plateau.vecteurLigne[i].cols[j] = new Position(i, j, this.pierreFactory, this.plateau);
+                this.plateau.vecteurLigne[i].cols[j] = new Position(i, j, this.pierreFactory, this.plateau)
             }
         }
     }
@@ -249,12 +319,13 @@ function uniqid() {
     return ('d'+out)
 }      
 
-function NbrPlateau() {
+function nbrPlateau() {
     var timestamp = uniqid()
     var serial = "fulguro"
     var cptPlateau = (serial + "_" + timestamp)
     return cptPlateau
 }
+
 
 function Position(indexLigne, indexCol, pierreFactory, plateau) {
     this.coordonnee = new Coordonnee(indexLigne, indexCol)
@@ -292,9 +363,9 @@ function Position(indexLigne, indexCol, pierreFactory, plateau) {
     }
     this.setCouleur = function(couleur) {
         if (couleur === "blanc") {
-            this.imageEnCours = pierreFactory.image1;
+            this.imageEnCours = pierreFactory.image1
         } else if (couleur === "noir") {
-            this.imageEnCours = pierreFactory.image2;
+            this.imageEnCours = pierreFactory.image2
         } else {
             /*if(this.coordonnee.indexLigne == 0 && this.coordonnee.cols == 0)
                 this.imageEnCours = pierreFactory.coin3
@@ -315,8 +386,7 @@ function Position(indexLigne, indexCol, pierreFactory, plateau) {
             /*else
                 this.imageEnCours = pierreFactory.image3*/
                 
-            this.imageEnCours = pierreFactory.image3;
-            
+            this.imageEnCours = pierreFactory.image3
         }
     }
 
@@ -359,8 +429,7 @@ function Position(indexLigne, indexCol, pierreFactory, plateau) {
         console.log("Compte liberté");
         for (iVoisin = 0; iVoisin < this.voisins.length; iVoisin++) {
             var coor = this.voisins[iVoisin];
-            if (excepteCoor === undefined ||
-                !coor.equals(excepteCoor)) {
+            if (excepteCoor === undefined || !coor.equals(excepteCoor)) {
                 console.log("Voisin " + coor.indexLigne + "," + coor.indexCol +
                     " Couleur " + this.plateau.vecteurLigne[coor.indexLigne]
                         .cols[coor.indexCol].getCouleur());
